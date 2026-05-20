@@ -1,13 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StratScan AI</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Hello World</h1>
-  <button onclick="showMessage()">Click Me</button>
+  <header class="header">
+    <h1>StratScan AI</h1>
+    <p>Rule-Based Stock Trading Assistant</p>
+  </header>
+
+  <main class="container">
+
+    <div class="card">
+      <h2>Stock Inputs</h2>
+
+      <div class="grid">
+
+        <div class="input-group">
+          <label>Stock Name</label>
+          <input type="text" id="stockName" placeholder="Enter Stock Name">
+        </div>
+
+        <div class="input-group">
+          <label>Timeframe</label>
+          <select id="timeframe">
+            <option>Daily</option>
+            <option>15 Min</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>LTP</label>
+          <input type="number" id="ltp">
+        </div>
+
+        <div class="input-group">
+          <label>EMA 20</label>
+          <input type="number" id="ema20">
+        </div>
+
+        <div class="input-group">
+          <label>EMA 50</label>
+          <input type="number" id="ema50">
+        </div>
+
+        <div class="input-group">
+          <label>RSI</label>
+          <input type="number" id="rsi">
+        </div>
+
+      </div>
+
+      <button class="analyze-btn" onclick="analyzeStock()">
+        Analyze
+      </button>
+    </div>
+
+    <div id="resultCard" class="card hidden">
+      <h2>Analysis Result</h2>
+
+      <div id="resultContent"></div>
+    </div>
+
+  </main>
 
   <script src="script.js"></script>
 </body>
