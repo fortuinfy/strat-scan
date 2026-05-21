@@ -75,20 +75,20 @@ function analyzeStock() {
   let pcScore = 0;
   let rbScore = 0;
 
-  // CB
+  // CB Score
 
   if (ltp > ema20) cbScore += 25;
   if (ema20 > ema50) cbScore += 25;
   if (emaGap >= 0.5) cbScore += 25;
   if (rsi >= 55 && rsi <= 70) cbScore += 25;
 
-  // PC
+  // PC Score
 
   if (ema20 > ema50) pcScore += 30;
   if (Math.abs(distance) <= tolerance) pcScore += 40;
   if (rsi >= 50 && rsi <= 60) pcScore += 30;
 
-  // RB
+  // RB Score
 
   if (Math.abs(emaGap) <= 0.5) rbScore += 40;
   if (rsi >= 45 && rsi <= 55) rbScore += 30;
@@ -187,6 +187,8 @@ function analyzeStock() {
       return;
     }
 
+    // EXECUTE TRADE
+
     if (
       ltp > prevEntryHigh &&
       ema20 > ema50 &&
@@ -201,6 +203,8 @@ function analyzeStock() {
 
     }
 
+    // HOLD WATCHLIST
+
     else if (
       ema20 > ema50 &&
       ltp > ema20 &&
@@ -214,6 +218,8 @@ function analyzeStock() {
       tradeStatus = "Hold Watchlist";
 
     }
+
+    // REMOVE WATCHLIST
 
     else {
 
@@ -230,6 +236,8 @@ function analyzeStock() {
   // =================================
   // ACTIVE TRADE FOLLOW-UP
   // =================================
+
+  let exitPlanHTML = "";
 
   if (mode === "active") {
 
@@ -248,10 +256,16 @@ function analyzeStock() {
         document.getElementById("currentSL").value
       );
 
+    const stockQty =
+      parseFloat(
+        document.getElementById("stockQty").value
+      );
+
     if (
       isNaN(executedEntry) ||
       isNaN(currentTarget) ||
-      isNaN(currentSL)
+      isNaN(currentSL) ||
+      isNaN(stockQty)
     ) {
       alert("Fill Active Trade fields");
       return;
@@ -263,7 +277,7 @@ function analyzeStock() {
     const initialRisk =
       executedEntry - currentSL;
 
-    // EXIT
+    // EXIT TRADE
 
     if (
       ltp < ema20 ||
@@ -276,9 +290,38 @@ function analyzeStock() {
       reason = "Trend weakening";
       tradeStatus = "Exit Trade";
 
+      exitPlanHTML = `
+
+        <div class="trade-plan">
+
+          <h3>Exit Trade Plan</h3>
+
+          <div class="result-grid">
+
+            <div class="result-item">
+              <h4>Exit Quantity</h4>
+              <p>${stockQty} Shares</p>
+            </div>
+
+            <div class="result-item">
+              <h4>Suggested Exit</h4>
+              <p>Exit Full Position Immediately</p>
+            </div>
+
+            <div class="result-item">
+              <h4>Reason</h4>
+              <p>Structure Breakdown</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
     }
 
-    // PARTIAL EXIT
+    // PARTIAL PROFIT
 
     else if (
       ltp >= currentTarget * 0.95 ||
@@ -290,6 +333,65 @@ function analyzeStock() {
       setup = "Target Near";
       reason = "Book partial profits";
       tradeStatus = "Partial Profit Zone";
+
+      const partialQty =
+        Math.floor(stockQty * 0.5);
+
+      const remainingQty =
+        stockQty - partialQty;
+
+      const revisedSL =
+        ema20.toFixed(2);
+
+      const revisedTarget =
+        (
+          currentTarget +
+          ((currentTarget - executedEntry) * 0.5)
+        ).toFixed(2);
+
+      exitPlanHTML = `
+
+        <div class="trade-plan">
+
+          <h3>Exit Trade Plan</h3>
+
+          <div class="result-grid">
+
+            <div class="result-item">
+              <h4>Partial Exit Qty</h4>
+              <p>${partialQty} Shares</p>
+            </div>
+
+            <div class="result-item">
+              <h4>Remaining Qty</h4>
+              <p>${remainingQty} Shares</p>
+            </div>
+
+            <div class="result-item">
+              <h4>Suggested Exit Price</h4>
+              <p>${ltp.toFixed(2)}</p>
+            </div>
+
+            <div class="result-item">
+              <h4>Revised Stop Loss</h4>
+              <p>${revisedSL}</p>
+            </div>
+
+            <div class="result-item">
+              <h4>Revised Target</h4>
+              <p>${revisedTarget}</p>
+            </div>
+
+            <div class="result-item">
+              <h4>Trade Guidance</h4>
+              <p>Trail Remaining Quantity Risk-Free</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
 
     }
 
@@ -305,9 +407,33 @@ function analyzeStock() {
       reason = "Trail stop loss";
       tradeStatus = "Trail SL";
 
+      exitPlanHTML = `
+
+        <div class="trade-plan">
+
+          <h3>Trade Management</h3>
+
+          <div class="result-grid">
+
+            <div class="result-item">
+              <h4>Trail Stop Loss To</h4>
+              <p>${ema20.toFixed(2)}</p>
+            </div>
+
+            <div class="result-item">
+              <h4>Guidance</h4>
+              <p>Protect Profits & Hold Trend</p>
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
     }
 
-    // HOLD
+    // HOLD TRADE
 
     else {
 
@@ -320,6 +446,10 @@ function analyzeStock() {
     }
 
   }
+
+  // =================================
+  // TRADE PLAN
+  // =================================
 
   let entryLow;
   let entryHigh;
@@ -394,6 +524,11 @@ function analyzeStock() {
       </div>
 
       <div class="result-item">
+        <h4>Timeframe</h4>
+        <p>${timeframe}</p>
+      </div>
+
+      <div class="result-item">
         <h4>Setup</h4>
         <p>${setup}</p>
       </div>
@@ -420,11 +555,115 @@ function analyzeStock() {
         <p>${tradeStatus}</p>
       </div>
 
+      <div class="result-item">
+        <h4>CB Score</h4>
+        <p>${cbScore}/100</p>
+      </div>
+
+      <div class="result-item">
+        <h4>PC Score</h4>
+        <p>${pcScore}/100</p>
+      </div>
+
+      <div class="result-item">
+        <h4>RB Score</h4>
+        <p>${rbScore}/100</p>
+      </div>
+
     </div>
+
+    <div class="trade-plan">
+
+      <h3>Trade Plan</h3>
+
+      <div class="result-grid">
+
+        <div class="result-item">
+          <h4>Entry Range</h4>
+          <p>${entryLow.toFixed(2)} - ${entryHigh.toFixed(2)}</p>
+        </div>
+
+        ${
+          verdict === "WATCH"
+            ? `
+              <div class="result-item">
+                <h4>Trigger Zone</h4>
+                <p>${triggerLow.toFixed(2)} - ${triggerHigh.toFixed(2)}</p>
+              </div>
+            `
+            : ""
+        }
+
+        <div class="result-item">
+          <h4>Stop Loss</h4>
+          <p>${stopLoss.toFixed(2)}</p>
+        </div>
+
+        <div class="result-item">
+          <h4>Target</h4>
+          <p>${target.toFixed(2)}</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    ${exitPlanHTML}
+
   `;
+
+  // POSITION SIZE
+
+  if (verdict === "BUY" && mode !== "active") {
+
+    resultContent.innerHTML += `
+
+      <div class="position-box">
+
+        <h3>Position Size Calculator</h3>
+
+        <label>Capital</label>
+        <input type="number" id="capital">
+
+        <label>Risk %</label>
+        <input type="number" id="riskPercent" value="1">
+
+        <button class="calc-btn" onclick="calculatePosition(${entryLow}, ${stopLoss})">
+          Calculate Quantity
+        </button>
+
+        <div class="qty-result" id="qtyResult"></div>
+
+      </div>
+
+    `;
+
+  }
 
   document
     .getElementById("resultCard")
     .classList.remove("hidden");
 
-  }
+}
+
+function calculatePosition(entry, stopLoss) {
+
+  const capital =
+    parseFloat(document.getElementById("capital").value);
+
+  const riskPercent =
+    parseFloat(document.getElementById("riskPercent").value);
+
+  const riskPerShare =
+    entry - stopLoss;
+
+  const riskAmount =
+    capital * (riskPercent / 100);
+
+  const qty =
+    Math.floor(riskAmount / riskPerShare);
+
+  document.getElementById("qtyResult").innerHTML =
+    "Suggested Quantity: " + qty + " shares";
+
+}
