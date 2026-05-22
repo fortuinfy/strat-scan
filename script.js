@@ -78,9 +78,9 @@ function analyzeStock() {
   const emaGap =
     ((ema20 - ema50) / ema50) * 100;
 
-  // =========================================
+  // =====================================
   // SCORES
-  // =========================================
+  // =====================================
 
   let cbScore = 0;
   let pcScore = 0;
@@ -88,11 +88,14 @@ function analyzeStock() {
 
   // CB
 
-  if (ltp > ema20) cbScore += 25;
+  if (ltp > ema20)
+    cbScore += 25;
 
-  if (ema20 > ema50) cbScore += 25;
+  if (ema20 > ema50)
+    cbScore += 25;
 
-  if (emaGap >= 0.5) cbScore += 25;
+  if (emaGap >= 0.5)
+    cbScore += 25;
 
   if (rsi >= 55 && rsi <= 70)
     cbScore += 25;
@@ -123,32 +126,43 @@ function analyzeStock() {
   )
     rbScore += 30;
 
-  // =========================================
-  // HIGHEST SCORE SETUP ENGINE
-  // =========================================
+  // =====================================
+  // SETUP ENGINE
+  // =====================================
 
   let setup = "None";
-  let highestScore = Math.max(
-    cbScore,
-    pcScore,
-    rbScore
-  );
+  let setupScore = 0;
 
-  if (highestScore === cbScore) {
+  if (
+    cbScore >= pcScore &&
+    cbScore >= rbScore
+  ) {
+
     setup = "CB";
+    setupScore = cbScore;
+
   }
 
-  if (highestScore === pcScore) {
+  else if (
+    pcScore >= cbScore &&
+    pcScore >= rbScore
+  ) {
+
     setup = "PC";
+    setupScore = pcScore;
+
   }
 
-  if (highestScore === rbScore) {
+  else {
+
     setup = "RB";
+    setupScore = rbScore;
+
   }
 
-  // =========================================
+  // =====================================
   // VERDICT ENGINE
-  // =========================================
+  // =====================================
 
   let verdict = "AVOID";
   let priority = "Low";
@@ -174,7 +188,10 @@ function analyzeStock() {
 
   else if (setup === "CB") {
 
-    if (cbScore >= 75) {
+    if (
+      cbScore >= 75 &&
+      rsi >= 58
+    ) {
 
       verdict = "BUY";
       priority = "High";
@@ -183,12 +200,14 @@ function analyzeStock() {
 
     }
 
-    else if (cbScore >= 50) {
+    else if (
+      cbScore >= 50
+    ) {
 
       verdict = "WATCH";
       priority = "Medium";
       reason =
-        "Breakout structure forming";
+        "Breakout setup forming";
 
     }
 
@@ -198,23 +217,25 @@ function analyzeStock() {
 
   else if (setup === "PC") {
 
-    // BUY ONLY AFTER RSI CONFIRMATION
+    // PC SHOULD MOSTLY WATCH
+    // BUY ONLY AFTER STRONG CONFIRMATION
 
     if (
-      pcScore >= 90 &&
-      rsi >= 58
+      pcScore >= 100 &&
+      rsi >= 58 &&
+      ltp > ema20
     ) {
 
       verdict = "BUY";
       priority = "High";
       reason =
-        "Pullback confirmation strong";
+        "Pullback continuation confirmed";
 
     }
 
-    // OTHERWISE WATCH
-
-    else if (pcScore >= 55) {
+    else if (
+      pcScore >= 55
+    ) {
 
       verdict = "WATCH";
       priority = "Medium";
@@ -229,8 +250,6 @@ function analyzeStock() {
 
   else if (setup === "RB") {
 
-    // BUY ONLY AFTER STRONG BREAKOUT
-
     if (
       rbScore >= 90 &&
       rsi >= 55
@@ -243,7 +262,9 @@ function analyzeStock() {
 
     }
 
-    else if (rbScore >= 60) {
+    else if (
+      rbScore >= 60
+    ) {
 
       verdict = "WATCH";
       priority = "Medium";
@@ -254,23 +275,21 @@ function analyzeStock() {
 
   }
 
-  // =========================================
-  // RESULT COLORS
-  // =========================================
+  // =====================================
+  // RESULT COLOR
+  // =====================================
 
   let verdictClass = "avoid";
 
-  if (verdict === "BUY") {
+  if (verdict === "BUY")
     verdictClass = "buy";
-  }
 
-  if (verdict === "WATCH") {
+  if (verdict === "WATCH")
     verdictClass = "watch";
-  }
 
-  // =========================================
+  // =====================================
   // TRADE PLAN
-  // =========================================
+  // =====================================
 
   let tradePlanHTML = "";
 
@@ -284,7 +303,7 @@ function analyzeStock() {
     verdict === "WATCH"
   ) {
 
-    // BUY ENTRY
+    // BUY
 
     if (verdict === "BUY") {
 
@@ -295,23 +314,27 @@ function analyzeStock() {
 
     }
 
-    // WATCH ENTRY
+    // WATCH
 
     else {
 
       entryLow =
-        ema20 - (ema20 * tolerance);
+        ema20 -
+        (ema20 * tolerance);
 
       entryHigh =
-        ema20 + (ema20 * tolerance);
+        ema20 +
+        (ema20 * tolerance);
 
     }
 
-    // STOP LOSS
+    // SL
 
     stopLoss = ema50;
 
-    if (stopLoss >= entryLow) {
+    if (
+      stopLoss >= entryLow
+    ) {
 
       stopLoss =
         entryLow -
@@ -319,12 +342,10 @@ function analyzeStock() {
 
     }
 
-    // RISK
+    // TARGET
 
     const risk =
       entryLow - stopLoss;
-
-    // TARGET
 
     target =
       entryHigh +
@@ -385,9 +406,9 @@ function analyzeStock() {
 
   }
 
-  // =========================================
-  // RESULT SECTION
-  // =========================================
+  // =====================================
+  // RESULT
+  // =====================================
 
   const resultContent =
     document.getElementById(
@@ -411,6 +432,11 @@ function analyzeStock() {
       <div class="result-item">
         <h4>Setup</h4>
         <p>${setup}</p>
+      </div>
+
+      <div class="result-item">
+        <h4>Setup Score</h4>
+        <p>${setupScore}/100</p>
       </div>
 
       <div class="result-item">
@@ -451,9 +477,9 @@ function analyzeStock() {
 
   `;
 
-  // =========================================
+  // =====================================
   // POSITION SIZE
-  // =========================================
+  // =====================================
 
   if (verdict === "BUY") {
 
@@ -509,9 +535,9 @@ function analyzeStock() {
 
 }
 
-// =========================================
-// POSITION SIZE CALCULATOR
-// =========================================
+// =====================================
+// POSITION SIZE
+// =====================================
 
 function calculatePosition(
   entry,
