@@ -183,8 +183,6 @@ function analyzeStock() {
   let priority = "Low";
   let reason = "Weak structure";
 
-  // OVEREXTENDED
-
   if (
     (timeframe === "Daily" &&
       distance > 0.05) ||
@@ -198,8 +196,6 @@ function analyzeStock() {
     reason = "Overextended";
 
   }
-
-  // CB
 
   else if (setup === "CB") {
 
@@ -227,8 +223,6 @@ function analyzeStock() {
     }
 
   }
-
-  // PC
 
   else if (setup === "PC") {
 
@@ -258,8 +252,6 @@ function analyzeStock() {
 
   }
 
-  // RB
-
   else if (setup === "RB") {
 
     if (
@@ -288,7 +280,205 @@ function analyzeStock() {
   }
 
   // =====================================
-  // RESULT COLORS
+  // ACTIVE TRADE ENGINE
+  // =====================================
+
+  let followUpHTML = "";
+  let hideTradePlan = false;
+  let hidePositionSizing = false;
+
+  if (mode === "active") {
+
+    hideTradePlan = true;
+    hidePositionSizing = true;
+
+    const executedEntry =
+      parseFloat(
+        document.getElementById(
+          "executedEntry"
+        ).value
+      );
+
+    const currentSL =
+      parseFloat(
+        document.getElementById(
+          "currentSL"
+        ).value
+      );
+
+    const currentTarget =
+      parseFloat(
+        document.getElementById(
+          "currentTarget"
+        ).value
+      );
+
+    const quantityTraded =
+      parseFloat(
+        document.getElementById(
+          "quantityTraded"
+        ).value
+      );
+
+    let action =
+      "Continue Holding";
+
+    let actionReason =
+      "Trend remains healthy";
+
+    let exitPlan = "";
+
+    // FULL EXIT
+
+    if (
+      ltp < ema20 ||
+      rsi < 45
+    ) {
+
+      action = "Full Exit";
+      actionReason =
+        "Structure weakening";
+
+      exitPlan = `
+        <div class="trade-plan">
+          <h3>Exit Plan</h3>
+
+          <div class="result-grid">
+
+            <div class="result-item">
+              <h4>Exit Quantity</h4>
+              <p>
+                ${quantityTraded} Shares
+              </p>
+            </div>
+
+            <div class="result-item">
+              <h4>Exit Price</h4>
+              <p>
+                ${ltp.toFixed(2)}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+    }
+
+    // PARTIAL EXIT
+
+    else if (
+      ltp >= currentTarget * 0.95
+    ) {
+
+      action = "Partial Exit";
+      actionReason =
+        "Near target zone";
+
+      const partialQty =
+        Math.floor(
+          quantityTraded / 2
+        );
+
+      exitPlan = `
+        <div class="trade-plan">
+          <h3>Partial Exit Plan</h3>
+
+          <div class="result-grid">
+
+            <div class="result-item">
+              <h4>Exit Quantity</h4>
+              <p>
+                ${partialQty} Shares
+              </p>
+            </div>
+
+            <div class="result-item">
+              <h4>Hold Quantity</h4>
+              <p>
+                ${quantityTraded - partialQty} Shares
+              </p>
+            </div>
+
+            <div class="result-item">
+              <h4>Suggested Trail SL</h4>
+              <p>
+                ${ema20.toFixed(2)}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+    }
+
+    // TRAIL SL
+
+    else if (
+      ltp > executedEntry * 1.05
+    ) {
+
+      action = "Trail Stop Loss";
+      actionReason =
+        "Trade moving strongly";
+
+      exitPlan = `
+        <div class="trade-plan">
+          <h3>Trail Stop Loss</h3>
+
+          <div class="result-grid">
+
+            <div class="result-item">
+              <h4>Current SL</h4>
+              <p>
+                ${currentSL.toFixed(2)}
+              </p>
+            </div>
+
+            <div class="result-item">
+              <h4>Suggested New SL</h4>
+              <p>
+                ${ema20.toFixed(2)}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+    }
+
+    followUpHTML = `
+
+      <div class="trade-plan">
+
+        <h3>Active Trade Follow-Up</h3>
+
+        <div class="result-grid">
+
+          <div class="result-item">
+            <h4>Action</h4>
+            <p>${action}</p>
+          </div>
+
+          <div class="result-item">
+            <h4>Reason</h4>
+            <p>${actionReason}</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      ${exitPlan}
+
+    `;
+
+  }
+
+  // =====================================
+  // RESULT COLOR
   // =====================================
 
   let verdictClass = "avoid";
@@ -311,8 +501,11 @@ function analyzeStock() {
   let target;
 
   if (
-    verdict === "BUY" ||
-    verdict === "WATCH"
+    !hideTradePlan &&
+    (
+      verdict === "BUY" ||
+      verdict === "WATCH"
+    )
   ) {
 
     if (verdict === "BUY") {
@@ -411,7 +604,7 @@ function analyzeStock() {
   }
 
   // =====================================
-  // RESULT HTML
+  // RESULT SECTION
   // =====================================
 
   const resultContent =
@@ -479,13 +672,18 @@ function analyzeStock() {
 
     ${tradePlanHTML}
 
+    ${followUpHTML}
+
   `;
 
   // =====================================
   // POSITION SIZE
   // =====================================
 
-  if (verdict === "BUY") {
+  if (
+    verdict === "BUY" &&
+    !hidePositionSizing
+  ) {
 
     resultContent.innerHTML += `
 
