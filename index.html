@@ -1,88 +1,176 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>StratScan AI</title>
-  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
 </head>
 
 <body>
 
-  <header class="header">
-    <h1>StratScan AI</h1>
-    <p>Rule-Based Stock Trading Assistant</p>
-  </header>
+  <div class="container">
 
-  <main class="container">
+    <h1 class="app-title">
+      StratScan AI
+    </h1>
 
     <div class="card">
 
-      <h2>Stock Inputs</h2>
+      <div class="form-grid">
 
-      <div class="grid">
+        <div>
 
-        <div class="input-group">
           <label>Mode</label>
-          <select id="mode" onchange="toggleModeFields()">
-            <option value="new">New Scan</option>
-            <option value="watchlist">Watchlist Follow-Up</option>
-            <option value="active">Active Trade Follow-Up</option>
+
+          <select
+            id="mode"
+            onchange="toggleModeFields()"
+          >
+
+            <option value="new">
+              New Scan
+            </option>
+
+            <option value="watchlist">
+              Watchlist Follow-Up
+            </option>
+
+            <option value="active">
+              Active Trade Follow-Up
+            </option>
+
           </select>
+
         </div>
 
-        <div class="input-group">
+        <div>
+
           <label>Stock Name</label>
-          <input type="text" id="stockName" placeholder="Enter Stock Name">
+
+          <input
+            type="text"
+            id="stockName"
+            placeholder="Enter stock name"
+          >
+
         </div>
 
-        <div class="input-group">
+        <div>
+
           <label>Timeframe</label>
+
           <select id="timeframe">
-            <option>Daily</option>
-            <option>15 Min</option>
+
+            <option>
+              Daily
+            </option>
+
+            <option>
+              15 Min
+            </option>
+
           </select>
+
         </div>
 
-        <div class="input-group">
+        <div>
+
           <label>LTP</label>
-          <input type="number" id="ltp">
+
+          <input
+            type="number"
+            id="ltp"
+          >
+
         </div>
 
-        <div class="input-group">
+        <div>
+
           <label>EMA 20</label>
-          <input type="number" id="ema20">
+
+          <input
+            type="number"
+            id="ema20"
+          >
+
         </div>
 
-        <div class="input-group">
+        <div>
+
           <label>EMA 50</label>
-          <input type="number" id="ema50">
+
+          <input
+            type="number"
+            id="ema50"
+          >
+
         </div>
 
-        <div class="input-group">
+        <div>
+
           <label>RSI</label>
-          <input type="number" id="rsi">
+
+          <input
+            type="number"
+            id="rsi"
+          >
+
         </div>
 
       </div>
 
       <!-- WATCHLIST -->
 
-      <div id="watchlistFields" class="hidden extra-section">
+      <div
+        id="watchlistFields"
+        class="hidden"
+      >
 
-        <h2>Watchlist Follow-Up</h2>
+        <h2 class="sub-title">
+          Watchlist Follow-Up
+        </h2>
 
-        <div class="grid">
+        <div class="form-grid">
 
-          <div class="input-group">
-            <label>Previous Entry High</label>
-            <input type="number" id="prevEntryHigh">
+          <div>
+
+            <label>
+              Previous Entry High
+            </label>
+
+            <input
+              type="number"
+              id="previousEntryHigh"
+            >
+
           </div>
 
-          <div class="input-group">
-            <label>Previous Stop Loss</label>
-            <input type="number" id="prevSL">
+          <div>
+
+            <label>
+              Previous Stop Loss
+            </label>
+
+            <input
+              type="number"
+              id="previousStopLoss"
+            >
+
           </div>
 
         </div>
@@ -91,51 +179,98 @@
 
       <!-- ACTIVE TRADE -->
 
-      <div id="activeFields" class="hidden extra-section">
+      <div
+        id="activeFields"
+        class="hidden"
+      >
 
-        <h2>Active Trade Follow-Up</h2>
+        <h2 class="sub-title">
+          Active Trade Follow-Up
+        </h2>
 
-        <div class="grid">
+        <div class="form-grid">
 
-          <div class="input-group">
-            <label>Executed Entry</label>
-            <input type="number" id="executedEntry">
+          <div>
+
+            <label>
+              Executed Entry
+            </label>
+
+            <input
+              type="number"
+              id="executedEntry"
+            >
+
           </div>
 
-          <div class="input-group">
-            <label>Current Target</label>
-            <input type="number" id="currentTarget">
+          <div>
+
+            <label>
+              Current Stop Loss
+            </label>
+
+            <input
+              type="number"
+              id="currentSL"
+            >
+
           </div>
 
-          <div class="input-group">
-            <label>Current Stop Loss</label>
-            <input type="number" id="currentSL">
+          <div>
+
+            <label>
+              Current Target
+            </label>
+
+            <input
+              type="number"
+              id="currentTarget"
+            >
+
           </div>
 
-          <div class="input-group">
-            <label>Stock Quantity Traded</label>
-            <input type="number" id="stockQty">
+          <div>
+
+            <label>
+              Quantity Traded
+            </label>
+
+            <input
+              type="number"
+              id="quantityTraded"
+            >
+
           </div>
 
         </div>
 
       </div>
 
-      <button class="analyze-btn" onclick="analyzeStock()">
+      <button
+        class="analyze-btn"
+        onclick="analyzeStock()"
+      >
         Analyze
       </button>
 
     </div>
 
-    <div id="resultCard" class="card hidden">
+    <!-- RESULT -->
 
-      <h2>Analysis Result</h2>
+    <div
+      id="resultCard"
+      class="card hidden"
+    >
+
+      <h2>
+        Analysis Result
+      </h2>
 
       <div id="resultContent"></div>
 
     </div>
 
-  </main>
+  </div>
 
   <script src="script.js"></script>
 
