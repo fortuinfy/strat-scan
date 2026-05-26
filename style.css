@@ -1,191 +1,181 @@
-/* style.css */
+/* =========================
+   GLOBAL STYLES
+========================= */
 
 * {
-
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
 
 body {
 
   font-family: Arial, sans-serif;
-  background: #f5f7fb;
-  color: #111;
+
+  background: #f4f7fb;
+
+  color: #1f2937;
+
   padding: 20px;
 
 }
 
+/* =========================
+   CONTAINER
+========================= */
+
 .container {
 
-  max-width: 1200px;
+  max-width: 1300px;
+
   margin: auto;
 
 }
 
-.app-title {
+/* =========================
+   HEADER
+========================= */
+
+.app-header {
 
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 34px;
+
+  margin-bottom: 30px;
 
 }
+
+.app-header h1 {
+
+  font-size: 36px;
+
+  color: #111827;
+
+  margin-bottom: 10px;
+
+}
+
+.app-header p {
+
+  font-size: 16px;
+
+  color: #6b7280;
+
+}
+
+/* =========================
+   CARD
+========================= */
 
 .card {
 
-  background: white;
+  background: #ffffff;
+
   border-radius: 18px;
+
   padding: 25px;
+
   margin-bottom: 25px;
+
   box-shadow:
-    0 4px 15px rgba(0,0,0,0.08);
+    0 4px 12px rgba(0,0,0,0.06);
 
 }
 
-.form-grid {
+/* =========================
+   SECTION HEADER
+========================= */
 
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(220px,1fr));
+.section-header {
 
-  gap: 18px;
   margin-bottom: 20px;
 
 }
 
-label {
-
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-
-}
-
-input,
-select {
-
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  font-size: 15px;
-
-}
-
-.analyze-btn {
-
-  width: 100%;
-  padding: 16px;
-  border: none;
-  border-radius: 14px;
-  background: #16a34a;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-
-}
-
-.analyze-btn:hover {
-
-  opacity: 0.9;
-
-}
-
-.result-grid {
-
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(220px,1fr));
-
-  gap: 18px;
-  margin-top: 20px;
-
-}
-
-.result-item {
-
-  background: #f4f6fa;
-  padding: 18px;
-  border-radius: 14px;
-
-}
-
-.result-item h4 {
-
-  margin-bottom: 10px;
-  color: #555;
-
-}
-
-.result-item p {
+.section-header h2 {
 
   font-size: 24px;
-  font-weight: bold;
+
+  margin-bottom: 5px;
+
+  color: #111827;
 
 }
 
-.buy {
+.section-header p {
 
-  color: #16a34a;
+  color: #6b7280;
 
-}
-
-.watch {
-
-  color: #f59e0b;
+  font-size: 14px;
 
 }
 
-.avoid {
+/* =========================
+   INPUT GRID
+========================= */
 
-  color: #dc2626;
+.input-grid {
 
-}
+  display: grid;
 
-.trade-plan {
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
 
-  margin-top: 30px;
-
-}
-
-.position-box {
-
-  margin-top: 30px;
-  padding: 20px;
-  background: #f4f6fa;
-  border-radius: 14px;
+  gap: 20px;
 
 }
 
-.position-box h3 {
+/* =========================
+   INPUT GROUP
+========================= */
 
-  margin-bottom: 18px;
+.input-group {
 
-}
+  display: flex;
 
-.calc-btn {
-
-  width: 100%;
-  margin-top: 15px;
-  padding: 15px;
-  border: none;
-  border-radius: 12px;
-  background: #111827;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
+  flex-direction: column;
 
 }
 
-.qty-result {
+.input-group label {
 
-  margin-top: 15px;
-  font-size: 20px;
-  font-weight: bold;
+  margin-bottom: 8px;
+
+  font-weight: 600;
+
+  color: #374151;
 
 }
+
+.input-group input,
+.input-group select {
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  border: 1px solid #d1d5db;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.2s;
+
+}
+
+.input-group input:focus,
+.input-group select:focus {
+
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37,99,235,0.15);
+
+}
+
+/* =========================
+   HIDDEN SECTION
+========================= */
 
 .hidden {
 
@@ -193,24 +183,517 @@ select {
 
 }
 
-.sub-title {
+/* =========================
+   ADVANCED SECTION
+========================= */
 
-  margin-bottom: 18px;
-  margin-top: 10px;
+.advanced-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 12px;
 
 }
 
-@media(max-width:768px){
+.advanced-header h2 {
 
-  .app-title {
+  font-size: 24px;
+
+  color: #111827;
+
+}
+
+.advanced-note {
+
+  color: #6b7280;
+
+  font-size: 14px;
+
+}
+
+/* =========================
+   TOGGLE SWITCH
+========================= */
+
+.switch {
+
+  position: relative;
+
+  display: inline-block;
+
+  width: 60px;
+
+  height: 34px;
+
+}
+
+.switch input {
+
+  opacity: 0;
+
+  width: 0;
+
+  height: 0;
+
+}
+
+.slider {
+
+  position: absolute;
+
+  cursor: pointer;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: #d1d5db;
+
+  transition: .4s;
+
+  border-radius: 34px;
+
+}
+
+.slider:before {
+
+  position: absolute;
+
+  content: "";
+
+  height: 26px;
+
+  width: 26px;
+
+  left: 4px;
+
+  bottom: 4px;
+
+  background-color: white;
+
+  transition: .4s;
+
+  border-radius: 50%;
+
+}
+
+input:checked + .slider {
+
+  background-color: #2563eb;
+
+}
+
+input:checked + .slider:before {
+
+  transform: translateX(26px);
+
+}
+
+/* =========================
+   CANDLE BLOCK
+========================= */
+
+.candle-block {
+
+  margin-bottom: 30px;
+
+  padding: 20px;
+
+  border-radius: 14px;
+
+  background: #f9fafb;
+
+  border: 1px solid #e5e7eb;
+
+}
+
+.candle-block h3 {
+
+  margin-bottom: 18px;
+
+  color: #111827;
+
+  font-size: 18px;
+
+}
+
+/* =========================
+   VOLUME INFO
+========================= */
+
+.volume-info {
+
+  margin-top: 10px;
+
+  color: #6b7280;
+
+  font-size: 14px;
+
+  font-style: italic;
+
+}
+
+/* =========================
+   ANALYZE BUTTON
+========================= */
+
+.analyze-section {
+
+  text-align: center;
+
+  margin-bottom: 25px;
+
+}
+
+.analyze-btn {
+
+  background: #2563eb;
+
+  color: white;
+
+  border: none;
+
+  padding:
+    16px 40px;
+
+  border-radius: 12px;
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.analyze-btn:hover {
+
+  background: #1d4ed8;
+
+  transform: translateY(-2px);
+
+}
+
+/* =========================
+   RESULT GRID
+========================= */
+
+.result-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(240px, 1fr));
+
+  gap: 20px;
+
+  margin-bottom: 25px;
+
+}
+
+/* =========================
+   RESULT ITEM
+========================= */
+
+.result-item {
+
+  background: #f9fafb;
+
+  border-radius: 14px;
+
+  padding: 18px;
+
+  border: 1px solid #e5e7eb;
+
+}
+
+.result-item h4 {
+
+  margin-bottom: 10px;
+
+  color: #6b7280;
+
+  font-size: 14px;
+
+}
+
+.result-item p {
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  color: #111827;
+
+}
+
+/* =========================
+   VERDICT COLORS
+========================= */
+
+.buy {
+
+  color: #16a34a !important;
+
+}
+
+.watch {
+
+  color: #d97706 !important;
+
+}
+
+.avoid {
+
+  color: #dc2626 !important;
+
+}
+
+/* =========================
+   TRADE PLAN
+========================= */
+
+.trade-plan {
+
+  margin-top: 25px;
+
+  padding: 25px;
+
+  background: #eff6ff;
+
+  border-radius: 18px;
+
+  border: 1px solid #bfdbfe;
+
+}
+
+.trade-plan h3 {
+
+  margin-bottom: 20px;
+
+  color: #1d4ed8;
+
+}
+
+/* =========================
+   POSITION SIZE BOX
+========================= */
+
+.position-box {
+
+  margin-top: 25px;
+
+  padding: 25px;
+
+  background: #f0fdf4;
+
+  border-radius: 18px;
+
+  border: 1px solid #bbf7d0;
+
+}
+
+.position-box h3 {
+
+  margin-bottom: 20px;
+
+  color: #15803d;
+
+}
+
+.position-box label {
+
+  display: block;
+
+  margin-bottom: 8px;
+
+  margin-top: 15px;
+
+  font-weight: 600;
+
+}
+
+.position-box input {
+
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  border: 1px solid #d1d5db;
+
+}
+
+/* =========================
+   CALCULATE BUTTON
+========================= */
+
+.calc-btn {
+
+  margin-top: 20px;
+
+  background: #16a34a;
+
+  color: white;
+
+  border: none;
+
+  padding:
+    14px 28px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+
+}
+
+.calc-btn:hover {
+
+  background: #15803d;
+
+}
+
+/* =========================
+   QUANTITY RESULT
+========================= */
+
+.qty-result {
+
+  margin-top: 20px;
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  color: #111827;
+
+}
+
+/* =========================
+   REASON SECTION
+========================= */
+
+.reason-box {
+
+  margin-top: 25px;
+
+  padding: 20px;
+
+  background: #fff7ed;
+
+  border-radius: 18px;
+
+  border: 1px solid #fdba74;
+
+}
+
+.reason-box h3 {
+
+  margin-bottom: 15px;
+
+  color: #c2410c;
+
+}
+
+.reason-box ul {
+
+  padding-left: 20px;
+
+}
+
+.reason-box li {
+
+  margin-bottom: 10px;
+
+  line-height: 1.6;
+
+  color: #374151;
+
+}
+
+/* =========================
+   MOMENTUM BOX
+========================= */
+
+.momentum-box {
+
+  margin-top: 25px;
+
+  padding: 20px;
+
+  background: #f5f3ff;
+
+  border-radius: 18px;
+
+  border: 1px solid #c4b5fd;
+
+}
+
+.momentum-box h3 {
+
+  margin-bottom: 15px;
+
+  color: #6d28d9;
+
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  body {
+
+    padding: 12px;
+
+  }
+
+  .card {
+
+    padding: 18px;
+
+  }
+
+  .app-header h1 {
 
     font-size: 28px;
 
   }
 
-  .result-item p {
+  .section-header h2 {
 
     font-size: 20px;
+
+  }
+
+  .advanced-header {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+  }
+
+  .analyze-btn {
+
+    width: 100%;
 
   }
 
