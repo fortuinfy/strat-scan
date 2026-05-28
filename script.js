@@ -392,7 +392,7 @@ function analyzeStock() {
   );
 
   // =========================
-  // BASIC VALIDATION
+  // VALIDATION
   // =========================
 
   const basicValidation =
@@ -784,7 +784,7 @@ function analyzeStock() {
 }
 
 // =========================
-// SCORE BAR GENERATOR
+// SCORE BAR
 // =========================
 
 function generateScoreBar(score) {
@@ -797,6 +797,91 @@ function generateScoreBar(score) {
         class="score-fill"
         style="width:${safeScore(score)}%"
       ></div>
+
+    </div>
+
+  `;
+
+}
+
+// =========================
+// BADGE GENERATOR
+// =========================
+
+function generateBadges(badges) {
+
+  return badges.map(badge => {
+
+    return `
+
+      <div class="badge badge-${badge.type}">
+
+        ${badge.text}
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
+
+// =========================
+// RISK PILL
+// =========================
+
+function generateRiskPill(risk) {
+
+  let className = "risk-medium";
+
+  if (risk === "Low")
+    className = "risk-low";
+
+  if (risk === "High")
+    className = "risk-high";
+
+  return `
+
+    <div class="risk-pill ${className}">
+
+      ${risk} Risk
+
+    </div>
+
+  `;
+
+}
+
+// =========================
+// CONFIDENCE METER
+// =========================
+
+function generateConfidenceMeter(confidence) {
+
+  return `
+
+    <div class="confidence-wrapper">
+
+      <div class="confidence-label">
+
+        <span>
+          Execution Confidence
+        </span>
+
+        <span>
+          ${confidence}%
+        </span>
+
+      </div>
+
+      <div class="confidence-bar">
+
+        <div
+          class="confidence-fill"
+          style="width:${confidence}%"
+        ></div>
+
+      </div>
 
     </div>
 
@@ -958,6 +1043,18 @@ function renderStandardResults(data) {
         <div class="result-item">
 
           <h4>
+            Setup Grade
+          </h4>
+
+          <p>
+            ${safeText(data.setupGrade)}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
             Setup
           </h4>
 
@@ -974,18 +1071,6 @@ function renderStandardResults(data) {
         <div class="result-item">
 
           <h4>
-            Priority
-          </h4>
-
-          <p>
-            ${safeText(data.priority)}
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
             Trade Action
           </h4>
 
@@ -994,6 +1079,22 @@ function renderStandardResults(data) {
           </p>
 
         </div>
+
+      </div>
+
+      ${generateConfidenceMeter(
+        safeScore(
+          data.executionConfidence
+        )
+      )}
+
+      <div class="badge-container">
+
+        ${generateBadges(
+          safeArray(
+            data.signalBadges
+          )
+        )}
 
       </div>
 
@@ -1045,7 +1146,7 @@ function renderStandardResults(data) {
             Stop Loss
           </h4>
 
-          <p>
+          <p class="avoid">
             ${safeText(data.stopLoss)}
           </p>
 
@@ -1057,7 +1158,7 @@ function renderStandardResults(data) {
             Target
           </h4>
 
-          <p>
+          <p class="buy">
             ${safeText(data.target)}
           </p>
 
@@ -1069,9 +1170,9 @@ function renderStandardResults(data) {
             Risk Level
           </h4>
 
-          <p>
-            ${safeText(data.riskLevel)}
-          </p>
+          ${generateRiskPill(
+            safeText(data.riskLevel)
+          )}
 
         </div>
 
@@ -1319,7 +1420,7 @@ function renderTradeResults(data) {
       <div class="section-header">
 
         <h3>
-          Trade Management Summary
+          Active Trade Management
         </h3>
 
       </div>
