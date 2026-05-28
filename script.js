@@ -341,10 +341,6 @@ function resetAllFields() {
 
 function analyzeStock() {
 
-  // =========================
-  // BASIC INPUTS
-  // =========================
-
   const stockName = safeString(
 
     document.getElementById(
@@ -516,10 +512,6 @@ function analyzeStock() {
 
     }
 
-    // =========================
-    // VALIDATE CANDLES
-    // =========================
-
     const candleValidation =
 
       validateCandleInputs(
@@ -535,10 +527,6 @@ function analyzeStock() {
       return;
 
     }
-
-    // =========================
-    // MOMENTUM ENGINE
-    // =========================
 
     momentumData =
 
@@ -708,10 +696,6 @@ function analyzeStock() {
 
     );
 
-    // =========================
-    // ACTIVE VALIDATION
-    // =========================
-
     const activeValidation =
 
       validateActiveTradeInputs({
@@ -732,10 +716,6 @@ function analyzeStock() {
       return;
 
     }
-
-    // =========================
-    // TRADE ENGINE
-    // =========================
 
     const tradeData =
 
@@ -804,6 +784,27 @@ function analyzeStock() {
 }
 
 // =========================
+// SCORE BAR GENERATOR
+// =========================
+
+function generateScoreBar(score) {
+
+  return `
+
+    <div class="score-bar">
+
+      <div
+        class="score-fill"
+        style="width:${safeScore(score)}%"
+      ></div>
+
+    </div>
+
+  `;
+
+}
+
+// =========================
 // STANDARD RESULTS
 // =========================
 
@@ -826,15 +827,24 @@ function renderStandardResults(data) {
     ];
 
   let verdictClass = "avoid";
+  let verdictCardClass = "avoid-card";
 
-  if (data.verdict === "BUY")
+  if (data.verdict === "BUY") {
+
     verdictClass = "buy";
+    verdictCardClass = "buy-card";
 
-  if (data.verdict === "WATCH")
+  }
+
+  if (data.verdict === "WATCH") {
+
     verdictClass = "watch";
+    verdictCardClass = "watch-card";
+
+  }
 
   // =========================
-  // POSITION SIZE SECTION
+  // POSITION SIZE
   // =========================
 
   let positionSizeHTML = "";
@@ -843,7 +853,7 @@ function renderStandardResults(data) {
 
     positionSizeHTML = `
 
-      <div class="card">
+      <div class="card buy-card">
 
         <div class="section-header">
 
@@ -912,17 +922,21 @@ function renderStandardResults(data) {
   }
 
   // =========================
-  // MAIN RESULTS
+  // RESULT HTML
   // =========================
 
   resultContent.innerHTML = `
 
-    <div class="card">
+    <!-- =========================
+         VERDICT HERO
+    ========================== -->
+
+    <div class="card ${verdictCardClass}">
 
       <div class="section-header">
 
         <h3>
-          Result Summary
+          Final Verdict
         </h3>
 
       </div>
@@ -932,47 +946,11 @@ function renderStandardResults(data) {
         <div class="result-item">
 
           <h4>
-            Stock Name
-          </h4>
-
-          <p>
-            ${safeText(data.stockName)}
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
-            Timeframe
-          </h4>
-
-          <p>
-            ${safeText(data.timeframe)}
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
             Verdict
           </h4>
 
           <p class="${verdictClass}">
             ${safeText(data.verdict)}
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
-            Priority
-          </h4>
-
-          <p>
-            ${safeText(data.priority)}
           </p>
 
         </div>
@@ -993,30 +971,14 @@ function renderStandardResults(data) {
 
         </div>
 
-      </div>
-
-    </div>
-
-    <div class="card">
-
-      <div class="section-header">
-
-        <h3>
-          Setup Scores
-        </h3>
-
-      </div>
-
-      <div class="result-grid">
-
         <div class="result-item">
 
           <h4>
-            Setup Score
+            Priority
           </h4>
 
           <p>
-            ${safeScore(data.setupScore)}/100
+            ${safeText(data.priority)}
           </p>
 
         </div>
@@ -1024,47 +986,11 @@ function renderStandardResults(data) {
         <div class="result-item">
 
           <h4>
-            CB Score
+            Trade Action
           </h4>
 
           <p>
-            ${safeScore(data.cbScore)}/100
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
-            PC Score
-          </h4>
-
-          <p>
-            ${safeScore(data.pcScore)}/100
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
-            RB Score
-          </h4>
-
-          <p>
-            ${safeScore(data.rbScore)}/100
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
-            Momentum Score
-          </h4>
-
-          <p>
-            ${safeScore(data.momentumScore)}/100
+            ${safeText(data.tradeAction)}
           </p>
 
         </div>
@@ -1073,57 +999,9 @@ function renderStandardResults(data) {
 
     </div>
 
-    <div class="card">
-
-      <div class="section-header">
-
-        <h3>
-          Momentum Analysis
-        </h3>
-
-      </div>
-
-      <div class="result-grid">
-
-        <div class="result-item">
-
-          <h4>
-            Momentum Trend
-          </h4>
-
-          <p>
-            ${safeText(data.momentumTrend)}
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
-            Participation Trend
-          </h4>
-
-          <p>
-            ${safeText(data.participationTrend)}
-          </p>
-
-        </div>
-
-        <div class="result-item">
-
-          <h4>
-            Relative Volume
-          </h4>
-
-          <p>
-            ${safeText(data.relativeVolumeStatus)}
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
+    <!-- =========================
+         TRADE PLAN
+    ========================== -->
 
     <div class="card">
 
@@ -1197,14 +1075,166 @@ function renderStandardResults(data) {
 
         </div>
 
+      </div>
+
+    </div>
+
+    <!-- =========================
+         SETUP SCORES
+    ========================== -->
+
+    <div class="card">
+
+      <div class="section-header">
+
+        <h3>
+          Setup Scores
+        </h3>
+
+      </div>
+
+      <div class="result-grid">
+
         <div class="result-item">
 
           <h4>
-            Trade Action
+            Setup Score
           </h4>
 
           <p>
-            ${safeText(data.tradeAction)}
+            ${safeScore(data.setupScore)}/100
+          </p>
+
+          ${generateScoreBar(
+            data.setupScore
+          )}
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            CB Score
+          </h4>
+
+          <p>
+            ${safeScore(data.cbScore)}/100
+          </p>
+
+          ${generateScoreBar(
+            data.cbScore
+          )}
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            PC Score
+          </h4>
+
+          <p>
+            ${safeScore(data.pcScore)}/100
+          </p>
+
+          ${generateScoreBar(
+            data.pcScore
+          )}
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            RB Score
+          </h4>
+
+          <p>
+            ${safeScore(data.rbScore)}/100
+          </p>
+
+          ${generateScoreBar(
+            data.rbScore
+          )}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================
+         MOMENTUM ANALYSIS
+    ========================== -->
+
+    <div class="card">
+
+      <div class="section-header">
+
+        <h3>
+          Momentum Analysis
+        </h3>
+
+      </div>
+
+      <div class="result-grid">
+
+        <div class="result-item">
+
+          <h4>
+            Momentum Score
+          </h4>
+
+          <p>
+            ${safeScore(
+              data.momentumScore
+            )}/100
+          </p>
+
+          ${generateScoreBar(
+            data.momentumScore
+          )}
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Momentum Trend
+          </h4>
+
+          <p>
+            ${safeText(
+              data.momentumTrend
+            )}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Participation Trend
+          </h4>
+
+          <p>
+            ${safeText(
+              data.participationTrend
+            )}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Relative Volume
+          </h4>
+
+          <p>
+            ${safeText(
+              data.relativeVolumeStatus
+            )}
           </p>
 
         </div>
@@ -1214,6 +1244,10 @@ function renderStandardResults(data) {
     </div>
 
     ${positionSizeHTML}
+
+    <!-- =========================
+         REASONS
+    ========================== -->
 
     <div class="reason-box">
 
@@ -1280,7 +1314,7 @@ function renderTradeResults(data) {
 
   resultContent.innerHTML = `
 
-    <div class="card">
+    <div class="card buy-card">
 
       <div class="section-header">
 
@@ -1322,7 +1356,7 @@ function renderTradeResults(data) {
             Trade Verdict
           </h4>
 
-          <p>
+          <p class="buy">
             ${safeText(data.tradeVerdict)}
           </p>
 
