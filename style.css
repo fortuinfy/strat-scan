@@ -22,7 +22,11 @@ body {
     sans-serif;
 
   background:
-    #0f172a;
+    linear-gradient(
+      180deg,
+      #020617,
+      #0f172a
+    );
 
   color:
     #e2e8f0;
@@ -42,7 +46,7 @@ body {
 .container {
 
   max-width:
-    1400px;
+    1450px;
 
   margin:
     auto;
@@ -68,40 +72,45 @@ body {
     24px;
 
   padding:
-    24px;
+    28px;
 
   border-radius:
-    18px;
+    22px;
 
   background:
     linear-gradient(
       135deg,
-      #111827,
-      #1e293b
+      rgba(15,23,42,0.95),
+      rgba(30,41,59,0.95)
     );
 
   border:
-    1px solid #334155;
+    1px solid rgba(255,255,255,0.06);
 
   box-shadow:
-    0 8px 24px
-    rgba(0, 0, 0, 0.35);
+    0 10px 40px rgba(0,0,0,0.35);
+
+  backdrop-filter:
+    blur(14px);
 
 }
 
 .brand-section h1 {
 
   font-size:
-    34px;
+    38px;
 
   font-weight:
-    700;
+    800;
 
   color:
     #f8fafc;
 
+  letter-spacing:
+    1px;
+
   margin-bottom:
-    8px;
+    10px;
 
 }
 
@@ -137,35 +146,35 @@ body {
     column;
 
   gap:
-    4px;
+    6px;
 
   padding:
-    12px 18px;
+    14px 18px;
 
   border-radius:
-    14px;
+    16px;
 
   background:
-    #0f172a;
+    rgba(15,23,42,0.8);
 
   border:
-    1px solid #334155;
-
-  font-size:
-    14px;
+    1px solid rgba(255,255,255,0.06);
 
   color:
     #cbd5e1;
+
+  font-size:
+    14px;
 
 }
 
 .help-btn {
 
   width:
-    42px;
+    44px;
 
   height:
-    42px;
+    44px;
 
   border-radius:
     50%;
@@ -174,13 +183,20 @@ body {
     none;
 
   background:
-    #2563eb;
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
 
   color:
     white;
 
   font-size:
     18px;
+
+  font-weight:
+    bold;
 
   cursor:
     pointer;
@@ -193,34 +209,36 @@ body {
 .help-btn:hover {
 
   transform:
-    scale(1.05);
+    scale(1.08);
 
 }
 
 /* =========================
-   CARDS
+   CARD
 ========================= */
 
 .card {
 
   background:
-    #111827;
+    rgba(15,23,42,0.92);
 
   border:
-    1px solid #1e293b;
+    1px solid rgba(255,255,255,0.06);
 
   border-radius:
-    18px;
+    22px;
 
   padding:
-    24px;
+    26px;
 
   margin-bottom:
     22px;
 
   box-shadow:
-    0 6px 18px
-    rgba(0, 0, 0, 0.25);
+    0 8px 32px rgba(0,0,0,0.25);
+
+  backdrop-filter:
+    blur(10px);
 
   transition:
     0.3s;
@@ -233,7 +251,7 @@ body {
     translateY(-2px);
 
   border-color:
-    #334155;
+    rgba(59,130,246,0.3);
 
 }
 
@@ -263,16 +281,16 @@ body {
     220px;
 
   padding:
-    16px;
+    18px;
 
   border:
-    none;
+    1px solid rgba(255,255,255,0.05);
 
   border-radius:
-    14px;
+    16px;
 
   background:
-    #1e293b;
+    rgba(30,41,59,0.9);
 
   color:
     #cbd5e1;
@@ -281,7 +299,7 @@ body {
     15px;
 
   font-weight:
-    600;
+    700;
 
   cursor:
     pointer;
@@ -294,7 +312,7 @@ body {
 .mode-btn:hover {
 
   background:
-    #334155;
+    rgba(51,65,85,0.95);
 
 }
 
@@ -311,8 +329,7 @@ body {
     white;
 
   box-shadow:
-    0 4px 14px
-    rgba(37, 99, 235, 0.4);
+    0 8px 24px rgba(37,99,235,0.35);
 
 }
 
@@ -323,38 +340,38 @@ body {
 .mode-banner-card {
 
   margin-bottom:
-    22px;
+    24px;
 
 }
 
 .mode-banner {
 
+  padding:
+    34px;
+
+  border-radius:
+    24px;
+
   background:
     linear-gradient(
       135deg,
-      #1e3a8a,
-      #2563eb
+      #1d4ed8,
+      #2563eb,
+      #3b82f6
     );
-
-  border-radius:
-    18px;
-
-  padding:
-    28px;
 
   color:
     white;
 
   box-shadow:
-    0 8px 24px
-    rgba(37, 99, 235, 0.25);
+    0 12px 36px rgba(37,99,235,0.35);
 
 }
 
 .mode-banner h2 {
 
   font-size:
-    30px;
+    34px;
 
   margin-bottom:
     10px;
@@ -366,6 +383,9 @@ body {
   color:
     rgba(255,255,255,0.85);
 
+  font-size:
+    15px;
+
 }
 
 /* =========================
@@ -375,20 +395,20 @@ body {
 .section-header {
 
   margin-bottom:
-    20px;
+    22px;
 
 }
 
 .section-header h3 {
 
   font-size:
-    22px;
-
-  color:
-    #f8fafc;
+    24px;
 
   margin-bottom:
     6px;
+
+  color:
+    #f8fafc;
 
 }
 
@@ -420,7 +440,7 @@ body {
 }
 
 /* =========================
-   INPUT GROUP
+   INPUTS
 ========================= */
 
 .input-group {
@@ -453,16 +473,16 @@ body {
 .input-group select {
 
   padding:
-    14px;
+    15px;
 
   border-radius:
-    12px;
+    14px;
 
   border:
-    1px solid #334155;
+    1px solid rgba(255,255,255,0.08);
 
   background:
-    #0f172a;
+    rgba(2,6,23,0.85);
 
   color:
     white;
@@ -482,11 +502,10 @@ body {
 .input-group select:focus {
 
   border-color:
-    #2563eb;
+    #3b82f6;
 
   box-shadow:
-    0 0 0 3px
-    rgba(37, 99, 235, 0.2);
+    0 0 0 4px rgba(59,130,246,0.2);
 
 }
 
@@ -548,11 +567,11 @@ body {
   position:
     absolute;
 
-  cursor:
-    pointer;
-
   inset:
     0;
+
+  cursor:
+    pointer;
 
   background:
     #334155;
@@ -573,10 +592,10 @@ body {
   content:
     "";
 
-  height:
+  width:
     26px;
 
-  width:
+  height:
     26px;
 
   left:
@@ -588,11 +607,11 @@ body {
   background:
     white;
 
-  transition:
-    0.4s;
-
   border-radius:
     50%;
+
+  transition:
+    0.4s;
 
 }
 
@@ -617,16 +636,16 @@ input:checked + .slider:before {
 .candle-block {
 
   background:
-    #0f172a;
+    rgba(2,6,23,0.85);
 
   border:
-    1px solid #1e293b;
+    1px solid rgba(255,255,255,0.06);
 
   border-radius:
-    16px;
+    18px;
 
   padding:
-    20px;
+    22px;
 
   margin-bottom:
     18px;
@@ -655,11 +674,11 @@ input:checked + .slider:before {
   gap:
     16px;
 
-  margin-bottom:
-    24px;
-
   flex-wrap:
     wrap;
+
+  margin-bottom:
+    26px;
 
 }
 
@@ -667,13 +686,13 @@ input:checked + .slider:before {
 .secondary-btn {
 
   padding:
-    16px 26px;
+    16px 28px;
 
   border:
     none;
 
   border-radius:
-    14px;
+    16px;
 
   font-size:
     15px;
@@ -702,8 +721,7 @@ input:checked + .slider:before {
     white;
 
   box-shadow:
-    0 8px 18px
-    rgba(37,99,235,0.3);
+    0 12px 28px rgba(37,99,235,0.3);
 
 }
 
@@ -717,7 +735,7 @@ input:checked + .slider:before {
 .secondary-btn {
 
   background:
-    #1e293b;
+    rgba(30,41,59,0.95);
 
   color:
     #cbd5e1;
@@ -727,12 +745,12 @@ input:checked + .slider:before {
 .secondary-btn:hover {
 
   background:
-    #334155;
+    rgba(51,65,85,1);
 
 }
 
 /* =========================
-   RESULTS
+   RESULT WRAPPER
 ========================= */
 
 .result-wrapper {
@@ -741,6 +759,10 @@ input:checked + .slider:before {
     fadeIn 0.4s ease;
 
 }
+
+/* =========================
+   RESULT GRID
+========================= */
 
 .result-grid {
 
@@ -755,19 +777,33 @@ input:checked + .slider:before {
 
 }
 
+/* =========================
+   RESULT ITEM
+========================= */
+
 .result-item {
 
   background:
-    #0f172a;
+    rgba(2,6,23,0.9);
 
   border:
-    1px solid #1e293b;
+    1px solid rgba(255,255,255,0.06);
 
   border-radius:
-    14px;
+    16px;
 
   padding:
-    18px;
+    20px;
+
+  transition:
+    0.3s;
+
+}
+
+.result-item:hover {
+
+  transform:
+    translateY(-2px);
 
 }
 
@@ -780,17 +816,17 @@ input:checked + .slider:before {
     13px;
 
   margin-bottom:
-    10px;
+    12px;
 
 }
 
 .result-item p {
 
   font-size:
-    20px;
+    22px;
 
   font-weight:
-    700;
+    800;
 
   color:
     #f8fafc;
@@ -801,6 +837,55 @@ input:checked + .slider:before {
 
   color:
     #94a3b8;
+
+  display:
+    block;
+
+  margin-top:
+    8px;
+
+}
+
+/* =========================
+   SCORE BAR
+========================= */
+
+.score-bar {
+
+  width:
+    100%;
+
+  height:
+    10px;
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  overflow:
+    hidden;
+
+  margin-top:
+    12px;
+
+}
+
+.score-fill {
+
+  height:
+    100%;
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #3b82f6
+    );
 
 }
 
@@ -813,6 +898,9 @@ input:checked + .slider:before {
   color:
     #22c55e !important;
 
+  text-shadow:
+    0 0 12px rgba(34,197,94,0.4);
+
 }
 
 .watch {
@@ -820,12 +908,52 @@ input:checked + .slider:before {
   color:
     #f59e0b !important;
 
+  text-shadow:
+    0 0 12px rgba(245,158,11,0.4);
+
 }
 
 .avoid {
 
   color:
     #ef4444 !important;
+
+  text-shadow:
+    0 0 12px rgba(239,68,68,0.4);
+
+}
+
+/* =========================
+   VERDICT GLOW CARDS
+========================= */
+
+.buy-card {
+
+  border:
+    1px solid rgba(34,197,94,0.35);
+
+  box-shadow:
+    0 0 24px rgba(34,197,94,0.15);
+
+}
+
+.watch-card {
+
+  border:
+    1px solid rgba(245,158,11,0.35);
+
+  box-shadow:
+    0 0 24px rgba(245,158,11,0.15);
+
+}
+
+.avoid-card {
+
+  border:
+    1px solid rgba(239,68,68,0.35);
+
+  box-shadow:
+    0 0 24px rgba(239,68,68,0.15);
 
 }
 
@@ -836,16 +964,16 @@ input:checked + .slider:before {
 .reason-box {
 
   background:
-    #111827;
+    rgba(15,23,42,0.95);
 
   border:
-    1px solid #1e293b;
+    1px solid rgba(255,255,255,0.06);
 
   border-radius:
-    18px;
+    20px;
 
   padding:
-    24px;
+    26px;
 
   margin-bottom:
     22px;
@@ -865,7 +993,7 @@ input:checked + .slider:before {
 .reason-box ul {
 
   padding-left:
-    20px;
+    22px;
 
 }
 
@@ -878,7 +1006,7 @@ input:checked + .slider:before {
     #cbd5e1;
 
   line-height:
-    1.6;
+    1.7;
 
 }
 
@@ -894,7 +1022,7 @@ input:checked + .slider:before {
 }
 
 /* =========================
-   ANIMATIONS
+   FADE ANIMATION
 ========================= */
 
 @keyframes fadeIn {
@@ -905,7 +1033,7 @@ input:checked + .slider:before {
       0;
 
     transform:
-      translateY(10px);
+      translateY(12px);
 
   }
 
@@ -943,7 +1071,7 @@ input:checked + .slider:before {
       flex-start;
 
     gap:
-      18px;
+      20px;
 
   }
 
@@ -986,17 +1114,31 @@ input:checked + .slider:before {
 
   }
 
+  .mode-banner {
+
+    padding:
+      26px;
+
+  }
+
   .mode-banner h2 {
 
     font-size:
-      24px;
+      28px;
 
   }
 
   .brand-section h1 {
 
     font-size:
-      28px;
+      30px;
+
+  }
+
+  .result-item p {
+
+    font-size:
+      18px;
 
   }
 
