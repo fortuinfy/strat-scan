@@ -341,10 +341,6 @@ function resetAllFields() {
 
 function analyzeStock() {
 
-  // =========================
-  // BASIC INPUTS
-  // =========================
-
   const stockName =
     document.getElementById(
       "stockName"
@@ -406,7 +402,7 @@ function analyzeStock() {
   }
 
   // =========================
-  // ADVANCED ENGINE
+  // ADVANCED MODE
   // =========================
 
   const advancedEnabled =
@@ -454,119 +450,33 @@ function analyzeStock() {
 
   if (advancedEnabled) {
 
-    const candles = [
+    const candles = [];
 
-      {
+    for (let i = 1; i <= 5; i++) {
+
+      candles.push({
 
         close: parseFloat(
           document.getElementById(
-            "close1"
+            "close" + i
           ).value
         ),
 
         nature:
           document.getElementById(
-            "nature1"
+            "nature" + i
           ).value,
 
         volume:
           parseVolume(
             document.getElementById(
-              "volume1"
+              "volume" + i
             ).value
           )
 
-      },
+      });
 
-      {
-
-        close: parseFloat(
-          document.getElementById(
-            "close2"
-          ).value
-        ),
-
-        nature:
-          document.getElementById(
-            "nature2"
-          ).value,
-
-        volume:
-          parseVolume(
-            document.getElementById(
-              "volume2"
-            ).value
-          )
-
-      },
-
-      {
-
-        close: parseFloat(
-          document.getElementById(
-            "close3"
-          ).value
-        ),
-
-        nature:
-          document.getElementById(
-            "nature3"
-          ).value,
-
-        volume:
-          parseVolume(
-            document.getElementById(
-              "volume3"
-            ).value
-          )
-
-      },
-
-      {
-
-        close: parseFloat(
-          document.getElementById(
-            "close4"
-          ).value
-        ),
-
-        nature:
-          document.getElementById(
-            "nature4"
-          ).value,
-
-        volume:
-          parseVolume(
-            document.getElementById(
-              "volume4"
-            ).value
-          )
-
-      },
-
-      {
-
-        close: parseFloat(
-          document.getElementById(
-            "close5"
-          ).value
-        ),
-
-        nature:
-          document.getElementById(
-            "nature5"
-          ).value,
-
-        volume:
-          parseVolume(
-            document.getElementById(
-              "volume5"
-            ).value
-          )
-
-      }
-
-    ];
+    }
 
     momentumData =
 
@@ -625,12 +535,62 @@ function analyzeStock() {
     });
 
   // =========================
-  // MODE ROUTING
+  // ACTIVE TRADE MODE
   // =========================
 
-  if (currentMode === "new") {
+  if (currentMode === "active") {
 
-    renderNewScanResults({
+    const executedEntry =
+      parseFloat(
+        document.getElementById(
+          "executedEntry"
+        ).value
+      );
+
+    const currentSL =
+      parseFloat(
+        document.getElementById(
+          "currentSL"
+        ).value
+      );
+
+    const currentTarget =
+      parseFloat(
+        document.getElementById(
+          "currentTarget"
+        ).value
+      );
+
+    const quantity =
+      parseFloat(
+        document.getElementById(
+          "quantityTraded"
+        ).value
+      );
+
+    const tradeData =
+
+      manageActiveTrade({
+
+        ...setupData,
+
+        ...momentumData,
+
+        ...verdictData,
+
+        ltp,
+        ema20,
+        ema50,
+        rsi,
+
+        executedEntry,
+        currentSL,
+        currentTarget,
+        quantity
+
+      });
+
+    renderTradeResults({
 
       stockName,
       timeframe,
@@ -641,108 +601,41 @@ function analyzeStock() {
 
       ...verdictData,
 
-      reasons
+      ...tradeData
 
     });
 
-  }
-
-  else if (
-    currentMode === "watchlist"
-  ) {
-
-    renderWatchlistResults({
-
-      stockName,
-      timeframe,
-
-      ...setupData,
-
-      ...momentumData,
-
-      ...verdictData,
-
-      reasons
-
-    });
+    return;
 
   }
 
-  else if (
-    currentMode === "active"
-  ) {
+  // =========================
+  // NORMAL MODES
+  // =========================
 
-    renderActiveTradeResults({
+  renderStandardResults({
 
-      stockName,
-      timeframe,
+    stockName,
+    timeframe,
 
-      ...setupData,
+    ...setupData,
 
-      ...momentumData,
+    ...momentumData,
 
-      ...verdictData,
+    ...verdictData,
 
-      reasons
+    reasons
 
-    });
-
-  }
+  });
 
 }
 
 // =========================
-// NEW SCAN RESULTS
+// STANDARD RESULTS
 // =========================
 
-function renderNewScanResults(
+function renderStandardResults(
   data
-) {
-
-  renderGenericResults(
-    data,
-    "New Scan"
-  );
-
-}
-
-// =========================
-// WATCHLIST RESULTS
-// =========================
-
-function renderWatchlistResults(
-  data
-) {
-
-  renderGenericResults(
-    data,
-    "Watchlist Follow-Up"
-  );
-
-}
-
-// =========================
-// ACTIVE TRADE RESULTS
-// =========================
-
-function renderActiveTradeResults(
-  data
-) {
-
-  renderGenericResults(
-    data,
-    "Active Trade Follow-Up"
-  );
-
-}
-
-// =========================
-// GENERIC RESULT ENGINE
-// =========================
-
-function renderGenericResults(
-  data,
-  modeName
 ) {
 
   const {
@@ -781,6 +674,12 @@ function renderGenericResults(
     document.getElementById(
       "resultContent"
     );
+
+  const setupFullName =
+
+    APP_CONFIG.SETUP_NAMES[
+      setup
+    ];
 
   let verdictClass = "avoid";
 
@@ -835,7 +734,7 @@ function renderGenericResults(
           </h4>
 
           <p>
-            ${modeName}
+            ${currentMode}
           </p>
 
         </div>
@@ -873,6 +772,10 @@ function renderGenericResults(
           <p>
             ${setup}
           </p>
+
+          <small>
+            ${setupFullName}
+          </small>
 
         </div>
 
@@ -1017,6 +920,202 @@ function renderGenericResults(
       <ul>
 
         ${reasons
+          .map(
+            item =>
+              `<li>${item}</li>`
+          )
+          .join("")}
+
+      </ul>
+
+    </div>
+
+  `;
+
+  resultCard.classList.remove(
+    "hidden"
+  );
+
+}
+
+// =========================
+// ACTIVE TRADE RESULTS
+// =========================
+
+function renderTradeResults(
+  data
+) {
+
+  const {
+
+    stockName,
+    timeframe,
+
+    tradeVerdict,
+
+    priority,
+
+    tradeHealth,
+
+    pnlPercent,
+
+    suggestedSL,
+
+    suggestedTarget,
+
+    tradeReasons
+
+  } = data;
+
+  const resultCard =
+    document.getElementById(
+      "resultCard"
+    );
+
+  const resultContent =
+    document.getElementById(
+      "resultContent"
+    );
+
+  resultContent.innerHTML = `
+
+    <div class="card">
+
+      <div class="section-header">
+
+        <h3>
+          Trade Management Summary
+        </h3>
+
+      </div>
+
+      <div class="result-grid">
+
+        <div class="result-item">
+
+          <h4>
+            Stock Name
+          </h4>
+
+          <p>
+            ${stockName}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Timeframe
+          </h4>
+
+          <p>
+            ${timeframe}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Trade Verdict
+          </h4>
+
+          <p>
+            ${tradeVerdict}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Trade Health
+          </h4>
+
+          <p>
+            ${tradeHealth}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            P/L %
+          </h4>
+
+          <p>
+            ${pnlPercent.toFixed(2)}%
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Priority
+          </h4>
+
+          <p>
+            ${priority}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="section-header">
+
+        <h3>
+          Trade Management Plan
+        </h3>
+
+      </div>
+
+      <div class="result-grid">
+
+        <div class="result-item">
+
+          <h4>
+            Suggested Stop Loss
+          </h4>
+
+          <p>
+            ${suggestedSL}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Suggested Target
+          </h4>
+
+          <p>
+            ${suggestedTarget}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="reason-box">
+
+      <h3>
+        Why This Trade Verdict?
+      </h3>
+
+      <ul>
+
+        ${tradeReasons
           .map(
             item =>
               `<li>${item}</li>`
