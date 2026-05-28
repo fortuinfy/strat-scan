@@ -1,294 +1,228 @@
 // =========================
-// GLOBAL APP CONFIGURATION
+// APP CONFIGURATION
 // =========================
 
-window.APP_CONFIG = {
+const APP_CONFIG = {
 
   // =========================
-  // TIMEFRAME SETTINGS
+  // APP INFO
   // =========================
 
-  timeframeSettings: {
+  APP_NAME:
+    "TradeScan AI",
 
-    daily: {
+  APP_SUBTITLE:
+    "Advanced Multi-Engine Trading Assistant",
 
-      emaTolerance: 0.02,
+  VERSION:
+    "1.0.0",
 
-      overextendedLimit: 0.05
+  // =========================
+  // SETUP DEFINITIONS
+  // =========================
+
+  SETUP_NAMES: {
+
+    CB:
+      "Continuation Breakout",
+
+    PC:
+      "Pullback Continuation",
+
+    RB:
+      "Range Breakout"
+
+  },
+
+  // =========================
+  // VERDICT DEFINITIONS
+  // =========================
+
+  VERDICTS: {
+
+    BUY: {
+
+      label:
+        "BUY",
+
+      description:
+        "High Probability Opportunity",
+
+      className:
+        "buy"
 
     },
 
-    intraday15m: {
+    WATCH: {
 
-      emaTolerance: 0.005,
+      label:
+        "WATCH",
 
-      overextendedLimit: 0.01
+      description:
+        "Needs Further Confirmation",
+
+      className:
+        "watch"
+
+    },
+
+    AVOID: {
+
+      label:
+        "AVOID",
+
+      description:
+        "Weak Risk Reward Structure",
+
+      className:
+        "avoid"
 
     }
 
   },
 
   // =========================
-  // SETUP PRIORITY
+  // TRADE VERDICTS
   // =========================
 
-  setupPriority: [
+  TRADE_VERDICTS: {
 
-    "RB",
-    "PC",
-    "CB"
+    HOLD: {
 
-  ],
+      label:
+        "CONTINUE HOLDING",
 
-  // =========================
-  // CB CONFIGURATION
-  // =========================
-
-  cb: {
-
-    scoring: {
-
-      ltpAboveEMA20: 25,
-
-      emaAlignment: 25,
-
-      emaGapStrength: 25,
-
-      rsiStrength: 25
+      description:
+        "Trend Structure Healthy"
 
     },
 
-    conditions: {
+    TRAIL: {
 
-      minimumBuyScore: 75,
+      label:
+        "TRAIL STOP LOSS",
 
-      minimumWatchScore: 50,
+      description:
+        "Protect Existing Gains"
 
-      emaGapMinimum: 0.5,
+    },
 
-      rsiBuyMin: 58,
+    PARTIAL: {
 
-      rsiBuyMax: 70,
+      label:
+        "PARTIAL EXIT",
 
-      rsiWatchMin: 50,
+      description:
+        "Momentum Slowing Near Target"
 
-      rsiWatchMax: 57
+    },
+
+    EXIT: {
+
+      label:
+        "FULL EXIT",
+
+      description:
+        "Trend Structure Weakening"
 
     }
 
   },
 
   // =========================
-  // PC CONFIGURATION
+  // PRIORITY LEVELS
   // =========================
 
-  pc: {
+  PRIORITY_LEVELS: {
 
-    scoring: {
+    HIGH: {
 
-      emaAlignment: 30,
-
-      ema20Proximity: 40,
-
-      rsiSupport: 30
+      color:
+        "#22c55e"
 
     },
 
-    conditions: {
+    MEDIUM: {
 
-      minimumBuyScore: 100,
+      color:
+        "#facc15"
 
-      minimumWatchScore: 60,
+    },
 
-      rsiBuyMin: 58,
+    LOW: {
 
-      rsiBuyMax: 68,
-
-      rsiWatchMin: 50,
-
-      rsiWatchMax: 57
+      color:
+        "#ef4444"
 
     }
 
   },
 
   // =========================
-  // RB CONFIGURATION
+  // RSI SETTINGS
   // =========================
 
-  rb: {
+  RSI: {
 
-    scoring: {
+    STRONG_MIN:
+      60,
 
-      emaCompression: 40,
+    MODERATE_MIN:
+      50,
 
-      neutralRSI: 30,
+    OVERBOUGHT:
+      75,
 
-      emaProximity: 30
-
-    },
-
-    conditions: {
-
-      minimumBuyScore: 80,
-
-      minimumWatchScore: 40,
-
-      emaCompressionLimit: 0.5,
-
-      rsiNeutralMin: 45,
-
-      rsiNeutralMax: 55
-
-    }
+    WEAK:
+      45
 
   },
 
   // =========================
-  // ADVANCED MOMENTUM ENGINE
+  // MOMENTUM SETTINGS
   // =========================
 
-  momentum: {
+  MOMENTUM: {
 
-    scoring: {
+    STRONG:
+      70,
 
-      higherClose: 10,
+    MODERATE:
+      50,
 
-      bullishCandle: 10,
-
-      highRelativeVolume: 20,
-
-      risingVolumeParticipation: 20
-
-    },
-
-    conditions: {
-
-      strongMomentumScore: 70,
-
-      moderateMomentumScore: 50,
-
-      weakMomentumScore: 49
-
-    }
+    WEAK:
+      40
 
   },
 
   // =========================
-  // RELATIVE VOLUME ENGINE
+  // RELATIVE VOLUME
   // =========================
 
-  relativeVolume: {
+  RELATIVE_VOLUME: {
 
-    low: {
+    VERY_HIGH:
+      1.8,
 
-      min: 0,
+    HIGH:
+      1.3,
 
-      max: 0.79
-
-    },
-
-    normal: {
-
-      min: 0.8,
-
-      max: 1.2
-
-    },
-
-    high: {
-
-      min: 1.21,
-
-      max: 999999
-
-    }
+    LOW:
+      0.7
 
   },
 
   // =========================
-  // WEAKNESS ENGINE
+  // SETUP SCORE LEVELS
   // =========================
 
-  weaknessEngine: {
+  SETUP_SCORES: {
 
-    consecutiveBearishCandles: 2,
+    STRONG:
+      75,
 
-    fallingCloseCount: 3,
-
-    enableWeakMomentumDowngrade: true
-
-  },
-
-  // =========================
-  // VERDICT ENGINE
-  // =========================
-
-  verdicts: {
-
-    buy: "BUY",
-
-    watch: "WATCH",
-
-    avoid: "AVOID",
-
-    continueHolding:
-      "Continue Holding",
-
-    trailStopLoss:
-      "Trail Stop Loss",
-
-    partialExit:
-      "Partial Exit",
-
-    fullExit:
-      "Full Exit"
-
-  },
-
-  // =========================
-  // PRIORITY ENGINE
-  // =========================
-
-  priority: {
-
-    high: "High",
-
-    medium: "Medium",
-
-    low: "Low"
-
-  },
-
-  // =========================
-  // TRADE MANAGEMENT ENGINE
-  // =========================
-
-  tradeManagement: {
-
-    trailSL: {
-
-      activationPercent: 1.05,
-
-      rsiMin: 55,
-
-      rsiMax: 65
-
-    },
-
-    partialExit: {
-
-      targetReachPercent: 0.95,
-
-      rsiMinimum: 65
-
-    },
-
-    fullExit: {
-
-      rsiBreakdownLevel: 45
-
-    }
+    MODERATE:
+      55
 
   },
 
@@ -296,9 +230,13 @@ window.APP_CONFIG = {
   // POSITION SIZING
   // =========================
 
-  positionSizing: {
+  RISK_MANAGEMENT: {
 
-    defaultRiskPercent: 1
+    DEFAULT_RISK_PERCENT:
+      1,
+
+    MAX_RISK_PERCENT:
+      2
 
   },
 
@@ -306,15 +244,13 @@ window.APP_CONFIG = {
   // UI SETTINGS
   // =========================
 
-  ui: {
+  UI: {
 
-    showMomentumSection: true,
+    DEFAULT_TIMEFRAME:
+      "Daily",
 
-    showReasonSection: true,
-
-    showTradePlan: true,
-
-    showPositionSizing: true
+    DEFAULT_MODE:
+      "new"
 
   }
 
