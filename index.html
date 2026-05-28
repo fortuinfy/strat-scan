@@ -11,7 +11,7 @@
   />
 
   <title>
-    Trading Setup Analyzer
+    TradeScan AI
   </title>
 
   <link
@@ -23,68 +23,135 @@
 
 <body>
 
+  <!-- =========================
+       APP CONTAINER
+  ========================== -->
+
   <div class="container">
 
     <!-- =========================
-         HEADER
+         TOP HEADER
     ========================== -->
 
-    <header class="app-header">
+    <header class="top-header">
 
-      <h1>
-        Trading Setup Analyzer
-      </h1>
+      <div class="brand-section">
 
-      <p>
-        Smart Multi-Timeframe Trading Assistant
-      </p>
+        <h1>
+          TradeScan AI
+        </h1>
+
+        <p>
+          Advanced Multi-Engine Trading Assistant
+        </p>
+
+      </div>
+
+      <div class="header-actions">
+
+        <div class="timestamp-box">
+
+          <span id="currentDate">
+            --/--/----
+          </span>
+
+          <span id="currentTime">
+            --:-- --
+          </span>
+
+        </div>
+
+        <button class="help-btn">
+          ?
+        </button>
+
+      </div>
 
     </header>
 
     <!-- =========================
-         MODE SELECTION
+         MODE SELECTOR
+    ========================== -->
+
+    <section class="card">
+
+      <div class="mode-selector">
+
+        <button
+          class="mode-btn active-mode"
+          id="modeNew"
+          onclick="setMode('new')"
+        >
+
+          New Scan
+
+        </button>
+
+        <button
+          class="mode-btn"
+          id="modeWatchlist"
+          onclick="setMode('watchlist')"
+        >
+
+          Watchlist Follow-Up
+
+        </button>
+
+        <button
+          class="mode-btn"
+          id="modeActive"
+          onclick="setMode('active')"
+        >
+
+          Active Trade Follow-Up
+
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- =========================
+         MODE BANNER
+    ========================== -->
+
+    <section class="mode-banner-card">
+
+      <div class="mode-banner">
+
+        <div>
+
+          <h2 id="modeTitle">
+            New Scan
+          </h2>
+
+          <p id="modeSubtitle">
+
+            Analyze fresh market opportunities
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================
+         STOCK INFO
     ========================== -->
 
     <section class="card">
 
       <div class="section-header">
 
-        <h2>
-          Select Analysis Mode
-        </h2>
+        <h3>
+          Stock Information
+        </h3>
 
       </div>
 
       <div class="input-grid">
-
-        <!-- MODE -->
-
-        <div class="input-group">
-
-          <label>
-            Mode
-          </label>
-
-          <select
-            id="mode"
-            onchange="toggleModeFields()"
-          >
-
-            <option value="new">
-              New Scan
-            </option>
-
-            <option value="watchlist">
-              Watchlist Follow-Up
-            </option>
-
-            <option value="active">
-              Active Trade Follow-Up
-            </option>
-
-          </select>
-
-        </div>
 
         <!-- STOCK -->
 
@@ -129,22 +196,20 @@
     </section>
 
     <!-- =========================
-         BASIC INPUTS
+         CURRENT MARKET DATA
     ========================== -->
 
     <section class="card">
 
       <div class="section-header">
 
-        <h2>
-          Basic Inputs
-        </h2>
+        <h3>
+          Current Market Data
+        </h3>
 
       </div>
 
       <div class="input-grid">
-
-        <!-- LTP -->
 
         <div class="input-group">
 
@@ -160,44 +225,38 @@
 
         </div>
 
-        <!-- EMA20 -->
-
         <div class="input-group">
 
           <label>
-            EMA 20
+            EMA20
           </label>
 
           <input
             type="number"
             id="ema20"
-            placeholder="EMA 20"
+            placeholder="EMA20"
           />
 
         </div>
 
-        <!-- EMA50 -->
-
         <div class="input-group">
 
           <label>
-            EMA 50
+            EMA50
           </label>
 
           <input
             type="number"
             id="ema50"
-            placeholder="EMA 50"
+            placeholder="EMA50"
           />
 
         </div>
 
-        <!-- RSI -->
-
         <div class="input-group">
 
           <label>
-            RSI (14)
+            RSI
           </label>
 
           <input
@@ -213,19 +272,19 @@
     </section>
 
     <!-- =========================
-         WATCHLIST FIELDS
+         WATCHLIST FOLLOW-UP
     ========================== -->
 
     <section
       class="card hidden"
-      id="watchlistFields"
+      id="watchlistSection"
     >
 
       <div class="section-header">
 
-        <h2>
+        <h3>
           Watchlist Follow-Up Inputs
-        </h2>
+        </h3>
 
       </div>
 
@@ -234,13 +293,13 @@
         <div class="input-group">
 
           <label>
-            Previous Entry High
+            Previous Trigger Zone
           </label>
 
           <input
             type="number"
-            id="previousEntry"
-            placeholder="Previous Entry High"
+            id="previousTrigger"
+            placeholder="Previous Trigger Zone"
           />
 
         </div>
@@ -264,19 +323,19 @@
     </section>
 
     <!-- =========================
-         ACTIVE TRADE FIELDS
+         ACTIVE TRADE SECTION
     ========================== -->
 
     <section
       class="card hidden"
-      id="activeFields"
+      id="activeTradeSection"
     >
 
       <div class="section-header">
 
-        <h2>
-          Active Trade Follow-Up Inputs
-        </h2>
+        <h3>
+          Active Trade Inputs
+        </h3>
 
       </div>
 
@@ -285,13 +344,13 @@
         <div class="input-group">
 
           <label>
-            Executed Entry
+            Executed Entry Price
           </label>
 
           <input
             type="number"
             id="executedEntry"
-            placeholder="Executed Entry"
+            placeholder="Executed Entry Price"
           />
 
         </div>
@@ -343,41 +402,41 @@
     </section>
 
     <!-- =========================
-         ADVANCED ANALYSIS
+         ADVANCED ENGINE
     ========================== -->
 
     <section class="card">
 
-      <div class="advanced-header">
+      <div class="advanced-top">
 
-        <h2>
-          Advanced Candle Analysis
-        </h2>
+        <div>
 
-        <div class="toggle-wrapper">
+          <h3>
+            Advanced Momentum Engine
+          </h3>
 
-          <label class="switch">
+          <p>
 
-            <input
-              type="checkbox"
-              id="advancedToggle"
-              onchange="toggleAdvancedSection()"
-            />
+            Enable candle momentum and
+            participation analysis
 
-            <span class="slider"></span>
-
-          </label>
+          </p>
 
         </div>
 
+        <label class="switch">
+
+          <input
+            type="checkbox"
+            id="advancedToggle"
+            onchange="toggleAdvancedSection()"
+          />
+
+          <span class="slider"></span>
+
+        </label>
+
       </div>
-
-      <p class="advanced-note">
-
-        Optional precision analysis using
-        last 5 candle momentum and volume.
-
-      </p>
 
     </section>
 
@@ -392,9 +451,9 @@
 
       <div class="section-header">
 
-        <h2>
-          Candle Momentum Inputs
-        </h2>
+        <h3>
+          5-Candle Momentum Analysis
+        </h3>
 
         <p>
           Most Recent Candle First
@@ -402,29 +461,20 @@
 
       </div>
 
-      <!-- CANDLE BLOCKS -->
-
       <div id="candleContainer">
-
-      </div>
-
-      <div class="volume-info">
-
-        Supported Formats:
-        10L, 15M, 1Cr, 500K, 200
 
       </div>
 
     </section>
 
     <!-- =========================
-         ANALYZE BUTTON
+         ACTION BUTTONS
     ========================== -->
 
-    <section class="analyze-section">
+    <section class="action-section">
 
       <button
-        class="analyze-btn"
+        class="primary-btn"
         onclick="analyzeStock()"
       >
 
@@ -432,24 +482,25 @@
 
       </button>
 
+      <button
+        class="secondary-btn"
+        onclick="resetAllFields()"
+      >
+
+        Reset All
+
+      </button>
+
     </section>
 
     <!-- =========================
-         RESULT CARD
+         RESULTS
     ========================== -->
 
     <section
-      class="card hidden"
+      class="result-wrapper hidden"
       id="resultCard"
     >
-
-      <div class="section-header">
-
-        <h2>
-          Analysis Result
-        </h2>
-
-      </div>
 
       <div id="resultContent">
 
@@ -486,7 +537,7 @@
   <script src="engine/tradeManagementEngine.js"></script>
 
   <!-- =========================
-       MAIN CONTROLLER
+       MAIN SCRIPT
   ========================== -->
 
   <script src="script.js"></script>
