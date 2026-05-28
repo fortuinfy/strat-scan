@@ -1,17 +1,19 @@
 // =========================
-// VOLUME PARSER UTILITY
+// VOLUME PARSER
 // =========================
 
-window.parseVolume = function(volumeText) {
+function parseVolume(volumeInput) {
 
   // =========================
   // EMPTY CHECK
   // =========================
 
   if (
-    volumeText === undefined ||
-    volumeText === null ||
-    volumeText === ""
+
+    !volumeInput ||
+
+    volumeInput.trim() === ""
+
   ) {
 
     return 0;
@@ -19,46 +21,40 @@ window.parseVolume = function(volumeText) {
   }
 
   // =========================
-  // CLEAN INPUT
+  // NORMALIZE INPUT
   // =========================
 
-  let value =
-    volumeText
+  const value =
+
+    volumeInput
       .toString()
       .trim()
       .toUpperCase();
 
-  value =
+  // =========================
+  // REMOVE SPACES
+  // =========================
+
+  const cleanedValue =
+
     value.replace(/\s+/g, "");
-
-  // =========================
-  // INVALID INPUT CHECK
-  // =========================
-
-  const validPattern =
-    /^[0-9]*\.?[0-9]+(CR|L|M|K|B)?$/;
-
-  if (!validPattern.test(value)) {
-
-    console.warn(
-      "Invalid volume format:",
-      volumeText
-    );
-
-    return 0;
-
-  }
 
   // =========================
   // CRORE
   // =========================
 
-  if (value.includes("CR")) {
+  if (
+
+    cleanedValue.includes("CR")
+
+  ) {
 
     return (
+
       parseFloat(
-        value.replace("CR", "")
+        cleanedValue.replace("CR", "")
       ) * 10000000
+
     );
 
   }
@@ -67,12 +63,18 @@ window.parseVolume = function(volumeText) {
   // LAKH
   // =========================
 
-  if (value.includes("L")) {
+  if (
+
+    cleanedValue.includes("L")
+
+  ) {
 
     return (
+
       parseFloat(
-        value.replace("L", "")
+        cleanedValue.replace("L", "")
       ) * 100000
+
     );
 
   }
@@ -81,12 +83,18 @@ window.parseVolume = function(volumeText) {
   // MILLION
   // =========================
 
-  if (value.includes("M")) {
+  if (
+
+    cleanedValue.includes("M")
+
+  ) {
 
     return (
+
       parseFloat(
-        value.replace("M", "")
+        cleanedValue.replace("M", "")
       ) * 1000000
+
     );
 
   }
@@ -95,26 +103,18 @@ window.parseVolume = function(volumeText) {
   // THOUSAND
   // =========================
 
-  if (value.includes("K")) {
+  if (
+
+    cleanedValue.includes("K")
+
+  ) {
 
     return (
+
       parseFloat(
-        value.replace("K", "")
+        cleanedValue.replace("K", "")
       ) * 1000
-    );
 
-  }
-
-  // =========================
-  // BILLION
-  // =========================
-
-  if (value.includes("B")) {
-
-    return (
-      parseFloat(
-        value.replace("B", "")
-      ) * 1000000000
     );
 
   }
@@ -123,59 +123,8 @@ window.parseVolume = function(volumeText) {
   // NORMAL NUMBER
   // =========================
 
-  return parseFloat(value);
+  return parseFloat(
+    cleanedValue
+  );
 
-};
-
-// =========================
-// RELATIVE VOLUME STATUS
-// =========================
-
-window.getRelativeVolumeStatus =
-function(relativeVolume) {
-
-  const config =
-    window.APP_CONFIG.relativeVolume;
-
-  // LOW
-
-  if (
-
-    relativeVolume >= config.low.min &&
-    relativeVolume <= config.low.max
-
-  ) {
-
-    return "Low";
-
-  }
-
-  // NORMAL
-
-  if (
-
-    relativeVolume >= config.normal.min &&
-    relativeVolume <= config.normal.max
-
-  ) {
-
-    return "Normal";
-
-  }
-
-  // HIGH
-
-  if (
-
-    relativeVolume >= config.high.min &&
-    relativeVolume <= config.high.max
-
-  ) {
-
-    return "High";
-
-  }
-
-  return "Unknown";
-
-};
+}
