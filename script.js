@@ -623,28 +623,6 @@ function analyzeStock() {
   // POSITION SIZE ENGINE
   // =========================
 
-  const capital = safeNumber(
-
-    document.getElementById(
-      "capital"
-    ).value
-
-  );
-
-  const riskPercent = safeNumber(
-
-    document.getElementById(
-      "riskPercent"
-    ).value,
-
-    1
-
-  );
-
-  const numericSL = safeNumber(
-    tradePlan.stopLoss
-  );
-
   let positionData = {
 
     quantity: 0,
@@ -662,27 +640,33 @@ function analyzeStock() {
 
   };
 
-  if (
+  if (verdictData.verdict === "BUY") {
 
-    capital > 0 &&
-    riskPercent > 0 &&
-    numericSL > 0
+    const capital = 100000;
 
-  ) {
+    const riskPercent = 1;
 
-    positionData =
+    const numericSL = safeNumber(
+      tradePlan.stopLoss
+    );
 
-      calculatePositionSize({
+    if (numericSL > 0) {
 
-        capital,
+      positionData =
 
-        riskPercent,
+        calculatePositionSize({
 
-        entryPrice: ltp,
+          capital,
 
-        stopLoss: numericSL
+          riskPercent,
 
-      });
+          entryPrice: ltp,
+
+          stopLoss: numericSL
+
+        });
+
+    }
 
   }
 
@@ -849,6 +833,88 @@ function renderStandardResults(data) {
   if (data.verdict === "WATCH")
     verdictClass = "watch";
 
+  // =========================
+  // POSITION SIZE SECTION
+  // =========================
+
+  let positionSizeHTML = "";
+
+  if (data.verdict === "BUY") {
+
+    positionSizeHTML = `
+
+      <div class="card">
+
+        <div class="section-header">
+
+          <h3>
+            Position Size
+          </h3>
+
+        </div>
+
+        <div class="result-grid">
+
+          <div class="result-item">
+
+            <h4>
+              Suggested Quantity
+            </h4>
+
+            <p>
+              ${safeText(data.quantity)}
+            </p>
+
+          </div>
+
+          <div class="result-item">
+
+            <h4>
+              Risk Amount
+            </h4>
+
+            <p>
+              ${safeCurrency(data.riskAmount)}
+            </p>
+
+          </div>
+
+          <div class="result-item">
+
+            <h4>
+              Position Value
+            </h4>
+
+            <p>
+              ${safeCurrency(data.positionValue)}
+            </p>
+
+          </div>
+
+          <div class="result-item">
+
+            <h4>
+              Per Share Risk
+            </h4>
+
+            <p>
+              ${safeCurrency(data.perShareRisk)}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  // =========================
+  // MAIN RESULTS
+  // =========================
+
   resultContent.innerHTML = `
 
     <div class="card">
@@ -864,31 +930,67 @@ function renderStandardResults(data) {
       <div class="result-grid">
 
         <div class="result-item">
-          <h4>Stock Name</h4>
-          <p>${safeText(data.stockName)}</p>
+
+          <h4>
+            Stock Name
+          </h4>
+
+          <p>
+            ${safeText(data.stockName)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Timeframe</h4>
-          <p>${safeText(data.timeframe)}</p>
+
+          <h4>
+            Timeframe
+          </h4>
+
+          <p>
+            ${safeText(data.timeframe)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Verdict</h4>
+
+          <h4>
+            Verdict
+          </h4>
+
           <p class="${verdictClass}">
             ${safeText(data.verdict)}
           </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Priority</h4>
-          <p>${safeText(data.priority)}</p>
+
+          <h4>
+            Priority
+          </h4>
+
+          <p>
+            ${safeText(data.priority)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Setup</h4>
-          <p>${safeText(data.setup)}</p>
-          <small>${safeText(setupFullName)}</small>
+
+          <h4>
+            Setup
+          </h4>
+
+          <p>
+            ${safeText(data.setup)}
+          </p>
+
+          <small>
+            ${safeText(setupFullName)}
+          </small>
+
         </div>
 
       </div>
@@ -898,29 +1000,73 @@ function renderStandardResults(data) {
     <div class="card">
 
       <div class="section-header">
-        <h3>Trade Plan</h3>
+
+        <h3>
+          Setup Scores
+        </h3>
+
       </div>
 
       <div class="result-grid">
 
         <div class="result-item">
-          <h4>Entry Zone</h4>
-          <p>${safeText(data.entryZone)}</p>
+
+          <h4>
+            Setup Score
+          </h4>
+
+          <p>
+            ${safeScore(data.setupScore)}/100
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Trigger Zone</h4>
-          <p>${safeText(data.triggerZone)}</p>
+
+          <h4>
+            CB Score
+          </h4>
+
+          <p>
+            ${safeScore(data.cbScore)}/100
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Stop Loss</h4>
-          <p>${safeText(data.stopLoss)}</p>
+
+          <h4>
+            PC Score
+          </h4>
+
+          <p>
+            ${safeScore(data.pcScore)}/100
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Target</h4>
-          <p>${safeText(data.target)}</p>
+
+          <h4>
+            RB Score
+          </h4>
+
+          <p>
+            ${safeScore(data.rbScore)}/100
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Momentum Score
+          </h4>
+
+          <p>
+            ${safeScore(data.momentumScore)}/100
+          </p>
+
         </div>
 
       </div>
@@ -930,34 +1076,144 @@ function renderStandardResults(data) {
     <div class="card">
 
       <div class="section-header">
-        <h3>Position Size</h3>
+
+        <h3>
+          Momentum Analysis
+        </h3>
+
       </div>
 
       <div class="result-grid">
 
         <div class="result-item">
-          <h4>Suggested Quantity</h4>
-          <p>${safeText(data.quantity)}</p>
+
+          <h4>
+            Momentum Trend
+          </h4>
+
+          <p>
+            ${safeText(data.momentumTrend)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Risk Amount</h4>
-          <p>${safeCurrency(data.riskAmount)}</p>
+
+          <h4>
+            Participation Trend
+          </h4>
+
+          <p>
+            ${safeText(data.participationTrend)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Position Value</h4>
-          <p>${safeCurrency(data.positionValue)}</p>
-        </div>
 
-        <div class="result-item">
-          <h4>Per Share Risk</h4>
-          <p>${safeCurrency(data.perShareRisk)}</p>
+          <h4>
+            Relative Volume
+          </h4>
+
+          <p>
+            ${safeText(data.relativeVolumeStatus)}
+          </p>
+
         </div>
 
       </div>
 
     </div>
+
+    <div class="card">
+
+      <div class="section-header">
+
+        <h3>
+          Trade Plan
+        </h3>
+
+      </div>
+
+      <div class="result-grid">
+
+        <div class="result-item">
+
+          <h4>
+            Entry Zone
+          </h4>
+
+          <p>
+            ${safeText(data.entryZone)}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Trigger Zone
+          </h4>
+
+          <p>
+            ${safeText(data.triggerZone)}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Stop Loss
+          </h4>
+
+          <p>
+            ${safeText(data.stopLoss)}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Target
+          </h4>
+
+          <p>
+            ${safeText(data.target)}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Risk Level
+          </h4>
+
+          <p>
+            ${safeText(data.riskLevel)}
+          </p>
+
+        </div>
+
+        <div class="result-item">
+
+          <h4>
+            Trade Action
+          </h4>
+
+          <p>
+            ${safeText(data.tradeAction)}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    ${positionSizeHTML}
 
     <div class="reason-box">
 
@@ -977,6 +1233,26 @@ function renderStandardResults(data) {
       </ul>
 
     </div>
+
+    ${data.warning ? `
+
+      <div class="reason-box">
+
+        <h3>
+          Warning
+        </h3>
+
+        <ul>
+
+          <li>
+            ${safeText(data.warning)}
+          </li>
+
+        </ul>
+
+      </div>
+
+    ` : ""}
 
   `;
 
@@ -1017,28 +1293,63 @@ function renderTradeResults(data) {
       <div class="result-grid">
 
         <div class="result-item">
-          <h4>Stock Name</h4>
-          <p>${safeText(data.stockName)}</p>
+
+          <h4>
+            Stock Name
+          </h4>
+
+          <p>
+            ${safeText(data.stockName)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Timeframe</h4>
-          <p>${safeText(data.timeframe)}</p>
+
+          <h4>
+            Timeframe
+          </h4>
+
+          <p>
+            ${safeText(data.timeframe)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Trade Verdict</h4>
-          <p>${safeText(data.tradeVerdict)}</p>
+
+          <h4>
+            Trade Verdict
+          </h4>
+
+          <p>
+            ${safeText(data.tradeVerdict)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>Trade Health</h4>
-          <p>${safeText(data.tradeHealth)}</p>
+
+          <h4>
+            Trade Health
+          </h4>
+
+          <p>
+            ${safeText(data.tradeHealth)}
+          </p>
+
         </div>
 
         <div class="result-item">
-          <h4>P/L %</h4>
-          <p>${safePercent(data.pnlPercent)}</p>
+
+          <h4>
+            P/L %
+          </h4>
+
+          <p>
+            ${safePercent(data.pnlPercent)}
+          </p>
+
         </div>
 
       </div>
